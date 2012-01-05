@@ -1,0 +1,22 @@
+{
+
+	"$variable":"local variable",
+	
+    "@include": {
+        "@from": "/base.json",
+        "$name": "wood pecker",
+        "$note": "new bird type"
+    },
+    
+    "@include": "/trait-alive.json",
+
+    "value0":"100",
+    
+    "value1" : {
+    	"@include" : "/some/test.json" 
+    }
+    
+    "name_2": "wood cock",
+    "note_2": "new world birds"
+    	
+}

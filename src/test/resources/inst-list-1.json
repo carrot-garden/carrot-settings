@@ -1,0 +1,24 @@
+{
+
+	"$entry" : {
+		"@file": "/root/inst.json",
+		"currency" : "usd", 
+		"exch" : "default-value", 
+		"from" : "$from", 
+		"into" : "$into" 
+	}
+
+	"list-of-inst" : [
+	          {
+		        	"@unit" : "$entry", 
+		        	"$from" : "aaa",
+		        	"$into" : "bbb"
+		      },
+	          {
+		        	"@unit" : "$entry", 
+		        	"$from" : "111",
+		        	"$into" : "222"
+		      }
+	          ]
+
+}
