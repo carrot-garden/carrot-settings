@@ -1,0 +1,26 @@
+{
+
+	"#define" : {
+		
+		"{size}" : 100,
+		"/color/" : "red",
+		"[is-used]" : true,
+
+		"<entry>":{
+			"size" : 2,
+			"color" : "green"
+		},
+		
+		"/* note */" : "comment"
+			
+	},
+
+	"size" : "{size}",
+	"color" : "/color/",
+	"used" : "[is-used]",
+	
+	"entry" : "<entry>",
+	
+	"":""
+		
+}

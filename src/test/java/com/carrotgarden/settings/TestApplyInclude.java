@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.codehaus.jackson.node.ContainerNode;
 import org.junit.Test;
 
-public class TestNodeInclude {
+public class TestApplyInclude {
 
 	public void testCase(final String base) {
 

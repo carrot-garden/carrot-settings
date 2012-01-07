@@ -1,0 +1,17 @@
+{
+
+	"#define" : {
+		"{size}" : 100
+	},
+
+	"entry" : {
+
+		"#define" : {
+			"{size}" : 10
+		},
+		
+		"size":"{size}"
+
+	}	
+		
+}

@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.codehaus.jackson.node.ContainerNode;
 import org.junit.Test;
 
-public class TestNodeRootMap {
+public class TestApplyRootMap {
 
 	public void testCase(final String base, final int size, final int count) {
 

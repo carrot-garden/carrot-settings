@@ -1,0 +1,14 @@
+{
+
+	"size" : 100,
+	"color" : "red",
+	"used" : true,
+
+	"entry":{
+		"size" : 2,
+		"color" : "green"
+	},
+	
+	"":""
+		
+}
