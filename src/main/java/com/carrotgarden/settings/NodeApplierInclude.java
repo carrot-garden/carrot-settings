@@ -1,6 +1,9 @@
 package com.carrotgarden.settings;
 
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ContainerNode;
+import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 import org.codehaus.jackson.node.ValueNode;
 
@@ -15,17 +18,24 @@ public class NodeApplierInclude extends NodeApplierBase {
 	protected void include(final ObjectNode source, final ObjectNode target,
 			final boolean isOverride) {
 
-		if (!isOverride) {
-			source.remove(getFields(target));
+		final ObjectNode temp = JsonNodeFactory.instance.objectNode();
+
+		if (isOverride) {
+			temp.putAll(target);
+			temp.putAll(source);
+		} else {
+			temp.putAll(source);
+			temp.putAll(target);
 		}
 
-		target.putAll(source);
+		target.removeAll();
+		target.putAll(temp);
 
 	}
 
-	// @Override
+	@Override
 	protected void apply(final ObjectNode root, final String name,
-			final ValueNode node) {
+			final ValueNode value) {
 
 		if (!INCLUDE.equals(name)) {
 			return;
@@ -33,10 +43,12 @@ public class NodeApplierInclude extends NodeApplierBase {
 
 		root.remove(INCLUDE);
 
-		final ContainerNode container = loader.load(node.asText());
+		final ContainerNode container = loader.load(value.asText());
 
 		if (container.isObject()) {
-			include((ObjectNode) container, root, false);
+			final ObjectNode object = (ObjectNode) container;
+			apply(object);
+			include(object, root, false);
 			return;
 		}
 
@@ -45,28 +57,41 @@ public class NodeApplierInclude extends NodeApplierBase {
 	}
 
 	@Override
-	protected void apply(final ContainerNode root, final String field,
-			final ValueNode node) {
+	protected void apply(final ObjectNode root, final String name,
+			final ArrayNode array) {
 
-		if (!INCLUDE.equals(field)) {
+		if (!INCLUDE.equals(name)) {
+			apply(array);
 			return;
 		}
 
-		final ContainerNode container = loader.load(node.asText());
+		root.remove(INCLUDE);
 
-		apply(container);
+		final ObjectNode temp = JsonNodeFactory.instance.objectNode();
 
-	}
+		for (final JsonNode value : array) {
 
-	@Override
-	protected void apply(final ContainerNode root, final String field,
-			final ContainerNode node) {
+			if (value.isValueNode()) {
 
-		if (!INCLUDE.equals(field)) {
-			return;
+				final ContainerNode container = loader.load(value.asText());
+
+				if (container.isObject()) {
+					final ObjectNode object = (ObjectNode) container;
+					apply(object);
+					include(object, temp, true);
+				} else {
+					new Exception("unexpected container").printStackTrace();
+				}
+
+			} else {
+
+				new Exception("unexpected container").printStackTrace();
+
+			}
+
 		}
 
-		new Exception("unexpected").printStackTrace();
+		include(temp, root, false);
 
 	}
 

@@ -1,4 +1,4 @@
-package com.carrotgarden.settings;
+package bench.node;
 
 public enum NodeLoaderURI {
 

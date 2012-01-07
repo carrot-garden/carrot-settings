@@ -12,44 +12,43 @@ import org.codehaus.jackson.node.ValueNode;
 
 public class NodeApplierBase implements NodeApplier {
 
+	protected void apply(final ArrayNode root, final int index,
+			final ValueNode value) {
+	}
+
+	protected void apply(final ArrayNode root, final int index,
+			final ArrayNode array) {
+		apply(array);
+	}
+
+	protected void apply(final ArrayNode root, final int index,
+			final ObjectNode object) {
+		apply(object);
+	}
+
+	protected void apply(final ObjectNode root, final String name,
+			final ValueNode node) {
+	}
+
+	protected void apply(final ObjectNode root, final String name,
+			final ArrayNode array) {
+		apply(array);
+	}
+
+	protected void apply(final ObjectNode root, final String name,
+			final ObjectNode object) {
+		apply(object);
+	}
+
 	//
 
-	protected static Set<String> getFields(final ContainerNode root) {
-
+	protected static Set<String> getFieldNames(final ObjectNode root) {
 		final Set<String> set = new HashSet<String>();
-
-		if (root.isArray()) {
-			final int size = root.size();
-			for (int index = 0; index < size; index++) {
-				set.add(Integer.toString(index));
-			}
+		final Iterator<String> iter = root.getFieldNames();
+		while (iter.hasNext()) {
+			set.add(iter.next());
 		}
-
-		if (root.isObject()) {
-			final Iterator<String> iter = root.getFieldNames();
-			while (iter.hasNext()) {
-				set.add(iter.next());
-			}
-		}
-
 		return set;
-	}
-
-	protected static JsonNode get(final ContainerNode root, final String field) {
-		if (root.isArray()) {
-			return root.get(Integer.parseInt(field));
-		} else {
-			return root.get(field);
-		}
-	}
-
-	protected static void put(final ContainerNode root, final String field,
-			final JsonNode node) {
-		if (root.isArray()) {
-			((ArrayNode) root).set(Integer.parseInt(field), node);
-		} else {
-			((ObjectNode) root).put(field, node);
-		}
 	}
 
 	protected static void assertTextNode(final JsonNode node) {
@@ -60,32 +59,63 @@ public class NodeApplierBase implements NodeApplier {
 
 	//
 
-	protected void apply(final ContainerNode root, final String field,
-			final ValueNode node) {
+	protected void apply(final ArrayNode root) {
+
+		final int size = root.size();
+
+		for (int index = 0; index < size; index++) {
+
+			final JsonNode node = root.get(index);
+
+			if (node.isValueNode()) {
+				apply(root, index, (ValueNode) node);
+			}
+
+			if (node.isArray()) {
+				apply(root, index, (ArrayNode) node);
+			}
+
+			if (node.isObject()) {
+				apply(root, index, (ObjectNode) node);
+			}
+
+		}
+
 	}
 
-	protected void apply(final ContainerNode root, final String field,
-			final ContainerNode node) {
-	}
+	protected void apply(final ObjectNode root) {
 
-	//
+		final Set<String> fieldNames = getFieldNames(root);
+
+		for (final String name : fieldNames) {
+
+			final JsonNode node = root.get(name);
+
+			if (node.isValueNode()) {
+				apply(root, name, (ValueNode) node);
+			}
+
+			if (node.isArray()) {
+				apply(root, name, (ArrayNode) node);
+			}
+
+			if (node.isObject()) {
+				apply(root, name, (ObjectNode) node);
+			}
+
+		}
+
+	}
 
 	@Override
 	public void apply(final ContainerNode root) {
 
-		final Set<String> fieldSet = getFields(root);
+		if (root.isArray()) {
+			apply((ArrayNode) root);
+		}
 
-		for (final String field : fieldSet) {
-
-			final JsonNode node = get(root, field);
-
-			if (node.isValueNode()) {
-				apply(root, field, (ValueNode) node);
-			} else {
-				apply(root, field, (ContainerNode) node);
-				apply((ContainerNode) node);
-			}
-
+		if (root.isObject()) {
+			apply((ObjectNode) root);
 		}
 
 	}

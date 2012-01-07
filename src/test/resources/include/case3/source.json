@@ -1,0 +1,12 @@
+{
+	
+    "note-0": "comment 0",
+    
+    "#include": [
+        "base:/include-1.json",
+        "base:/include-2.json",
+        "base:/more/include-3.json",
+        "base:/more/include-4.json"
+    ]
+
+}

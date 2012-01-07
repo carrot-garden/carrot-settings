@@ -1,4 +1,4 @@
-package com.carrotgarden.settings;
+package bench.node;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -10,6 +10,8 @@ import org.codehaus.jackson.node.ContainerNode;
 import org.codehaus.jackson.node.ObjectNode;
 import org.codehaus.jackson.node.ValueNode;
 
+import com.carrotgarden.settings.NodeApplier;
+
 public class NodeApplierBase1 implements NodeApplier {
 
 	protected void apply(final ArrayNode root, final int index,
@@ -18,10 +20,12 @@ public class NodeApplierBase1 implements NodeApplier {
 
 	protected void apply(final ArrayNode root, final int index,
 			final ArrayNode node) {
+		apply(node);
 	}
 
 	protected void apply(final ArrayNode root, final int index,
 			final ObjectNode node) {
+		apply(node);
 	}
 
 	protected void apply(final ObjectNode root, final String name,
@@ -30,10 +34,12 @@ public class NodeApplierBase1 implements NodeApplier {
 
 	protected void apply(final ObjectNode root, final String name,
 			final ArrayNode node) {
+		apply(node);
 	}
 
 	protected void apply(final ObjectNode root, final String name,
 			final ObjectNode node) {
+		apply(node);
 	}
 
 	//

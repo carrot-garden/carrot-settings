@@ -1,0 +1,19 @@
+{
+
+	"note-0":"comment 0",
+		
+	"#include" : "base:/include.json",
+	
+	"level-1":{
+		
+		"#include" : "base:/include.json",
+		
+		"level-2":{
+			
+			"#include" : "base:/include.json"
+				
+		}
+			
+	}
+	
+}
