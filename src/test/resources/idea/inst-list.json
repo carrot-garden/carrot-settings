@@ -1,0 +1,22 @@
+{
+
+	"$entry" : {
+		"#ref": "/root/inst.json",
+		"currency" : "usd", 
+		"exch" : "default-value", 
+	}
+
+	"list-of-inst" : [
+	          {
+		        	"#obj" : "$entry", 
+		        	"from" : "aaa",
+		        	"into" : "bbb"
+		      },
+	          {
+		        	"#obj" : "$entry", 
+		        	"from" : "111",
+		        	"into" : "222"
+		      }
+	          ]
+
+}

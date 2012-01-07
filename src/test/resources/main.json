@@ -1,0 +1,27 @@
+{
+
+	"#ref":"/some/path",
+	
+	"$var1" : "primitive constant",
+
+	"$var2" : {
+		"key" : "value",
+		"note" : "actual object"
+	},
+
+	"item11" : "$var1 and more - valid",
+
+	"item12" : "$var2 and more - NOT valid",
+
+	"item2" : {
+		"note":"can use var2 only if it is by itself",
+		"line":"$var2"
+	},
+
+	"item3" : {
+		"#obj" : "$var2"
+	},
+	
+	"item 4" : " hello end of line asdfasdf "
+	
+}
